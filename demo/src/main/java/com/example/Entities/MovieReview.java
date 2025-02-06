@@ -1,6 +1,6 @@
 package com.example.Entities;
 
-public class MovieAvaliation {
+public class MovieAvaliation implements Comparable<MovieAvaliation> {
     
     private String title;
     private int year;
@@ -38,6 +38,10 @@ public class MovieAvaliation {
 
     public void setUserNote(double userNote) {
         this.userNote = userNote;
+    }
+
+    public int compareTo(MovieAvaliation o){
+        return Double.compare(userNote, o.userNote);
     }
 
 
