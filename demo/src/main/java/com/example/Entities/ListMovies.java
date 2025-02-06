@@ -37,6 +37,32 @@ public class ListMovies {
             System.out.println("Filme '" + title + "' avaliado com nota " + note);
             saveReviews();
         }
+
+        public void updateReview(String title, Double note){
+            if(!movies.containsKey(title)){
+                System.out.println("Filme não encontrado.");
+                return;
+            }
+
+            if(note < 0.0 || note > 10.0){
+                throw new NoteException("Insira uma nota entre 0 e 10");
+            }
+
+            movies.put(title, note);
+            System.out.println("Nota do filme '" + title + "' atualizada para " + note);
+            saveReviews();
+        }
+
+        public void deleteMovie(String title){
+            if(!movies.containsKey(title)){
+                System.out.println("Filme não encontrado.");
+                return;
+            }
+
+            movies.remove(title);
+            System.out.println("Filme " + title + " removido.");
+            saveReviews();
+        }
     
         public void displayMovies(){
             if(movies.isEmpty()){

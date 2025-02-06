@@ -1,16 +1,16 @@
 package com.example.Entities;
 
-public class MovieAvaliation implements Comparable<MovieAvaliation> {
+public class MovieReview implements Comparable<MovieReview> {
     
     private String title;
     private int year;
     private double userNote;
 
-    public MovieAvaliation(){
+    public MovieReview(){
 
     }
 
-    public MovieAvaliation(String title, int year, double userNote) {
+    public MovieReview(String title, int year, double userNote) {
         this.title = title;
         this.year = year;
         this.userNote = userNote;
@@ -40,7 +40,7 @@ public class MovieAvaliation implements Comparable<MovieAvaliation> {
         this.userNote = userNote;
     }
 
-    public int compareTo(MovieAvaliation o){
+    public int compareTo(MovieReview o){
         return Double.compare(userNote, o.userNote);
     }
 
@@ -61,7 +61,7 @@ public class MovieAvaliation implements Comparable<MovieAvaliation> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        MovieAvaliation other = (MovieAvaliation) obj;
+        MovieReview other = (MovieReview) obj;
         if (title == null) {
             if (other.title != null)
                 return false;
