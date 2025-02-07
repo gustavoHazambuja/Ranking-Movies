@@ -5,7 +5,7 @@
 
 Ranking de Filmes é uma aplicação backend. A aplicação consiste em o usuário realizar buscas por filmes e fazer um ranking de suas avaliações, para essa busca foi utilizado a API do The Movie Database.
 
-O objetivo desse projeto foi para entender como funciona uma integração de uma API.
+Ele foi desenvolvido com o objetivo de compreender uma integração de uma API.
 
 
 ## Aplicação
