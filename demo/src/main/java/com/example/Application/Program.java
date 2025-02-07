@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.example.Entities.ListMovies;
 import com.example.Exceptions.NoteException;
+import com.example.Exceptions.TitleException;
 import com.example.Services.MovieService;
 
 public class Program {
@@ -42,7 +43,10 @@ public class Program {
 
                 try{
                     listMovies.avaliateMovie(title, note);
+                    
                 }catch(NoteException e){
+                    System.out.println("Erro: " + e.getMessage());
+                }catch(TitleException e){
                     System.out.println("Erro: " + e.getMessage());
                 }
                 break;

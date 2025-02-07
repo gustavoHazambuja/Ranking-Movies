@@ -1,17 +1,24 @@
 package com.example.Entities;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.example.Exceptions.NoteException;
+import com.example.Exceptions.TitleException;
 
 public class ListMovies {
     
@@ -32,9 +39,21 @@ public class ListMovies {
             if(note < 0.0 || note > 10.0){
                 throw new NoteException("Insira uma nota entre 0 e 10");
             }
+
+            if(title.isEmpty()){
+                throw new TitleException("O título não pode ser vazio.");
+            }
+
+            if(isValidMovie(title)){
+                movies.put(title, note);
+                System.out.println("Filme '" + title + "' avaliado com nota " + note);
+            }
+            else{
+                throw new TitleException("Filme não encontrado no TMDb. Verifique o título.");
+            }
     
-            movies.put(title, note);
-            System.out.println("Filme '" + title + "' avaliado com nota " + note);
+           
+           
             saveReviews();
         }
 
@@ -107,4 +126,36 @@ public class ListMovies {
             System.out.println("Nenhum arquivo encontrado ou erro ao carregar avaliações.");
         }
     }
+
+    private boolean isValidMovie(String title) {
+        
+    try {
+        String encodedTitle = URLEncoder.encode(title, StandardCharsets.UTF_8);
+        String apiUrl = "https://api.themoviedb.org/3/search/movie?query=" + encodedTitle + "&language=pt-BR";
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("accept", "application/json");
+        connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ODI0MjU2MWEyMGIzNzA3NzYyNWVmYzMzYWNhNTc2MiIsIm5iZiI6MTczODYzMzA2Ny4wOTUsInN1YiI6IjY3YTE2ZjZiYTQ1Mjg3YjdmZGUyYzA4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.37kNwFQQ3TinCTeQk9Ap5WMaaNQjvmbo2vbO3lO-340");
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+        }
+        reader.close();
+
+        JSONParser parser = new JSONParser();
+        JSONObject json = (JSONObject) parser.parse(response.toString());
+        JSONArray results = (JSONArray) json.get("results");
+
+        return !results.isEmpty(); // Retorna verdadeiro se houver ao menos um filme encontrado
+
+    } catch (Exception e) {
+        System.out.println("Erro ao verificar filme: " + e.getMessage());
+        return false;
+    }
+}
 }
