@@ -18,8 +18,8 @@ public class MovieService {
     public static void searchMovie(String movieTitle) {
         try {
             movieTitle = movieTitle.replace(" ", "%20");
-            URL url = new URL(BASE_URL + movieTitle + LANGUAGE);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            URL url = new URL(BASE_URL + movieTitle + LANGUAGE); // Cria a URL de requisição
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();  // Abre uma conexão HTTP com a URL
             connection.setRequestMethod("GET");
             connection.setRequestProperty("accept", "application/json");
             connection.setRequestProperty("Authorization", "Bearer " + API_KEY);
@@ -35,7 +35,7 @@ public class MovieService {
 
             JSONParser parser = new JSONParser();
             JSONObject json = (JSONObject) parser.parse(response.toString());
-            JSONArray results = (JSONArray) json.get("results");
+            JSONArray results = (JSONArray) json.get("results"); // Obtém a lista de filmes encontrados na chave "results"
 
             if (results.isEmpty()) {
                 System.out.println("Nenhum filme encontrado.");

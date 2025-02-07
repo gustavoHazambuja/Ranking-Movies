@@ -76,19 +76,21 @@ public class ListMovies {
                 System.out.println("Filme: " + m.getKey() + " | Nota: " + m.getValue()));
         }
     
-        public void saveReviews(){
+        public void saveReviews() {
             JSONObject json = new JSONObject();
-            for(Map.Entry<String,Double> entry : movies.entrySet()){
+            for (Map.Entry<String, Double> entry : movies.entrySet()) {
                 json.put(entry.getKey(), entry.getValue());
             }
-    
-            try(FileWriter file = new FileWriter("avaliacoes.json")){
+        
+            try (FileWriter file = new FileWriter("avaliacoes.json", false)) { 
                 file.write(json.toJSONString());
+                file.flush(); // Garante que os dados são gravados no arquivo antes de fechar
                 System.out.println("Avaliações salvas com sucesso!");
-            }catch(IOException e){
+            } catch (IOException e) {
                 System.out.println("Erro ao salvar avaliações: " + e.getMessage());
             }
         }
+        
     
         public void uploadReviews(){
             JSONParser parser = new JSONParser();
@@ -97,7 +99,7 @@ public class ListMovies {
     
                 for(Object key: json.keySet()){
                     String title = (String) key;
-                    double note = ((Number) json.get(key)).intValue();
+                    double note = ((Number) json.get(key)).doubleValue();
                     movies.put(title, note);
                 }
                 System.out.println("Avaliações carregadas com sucesso.");
