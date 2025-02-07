@@ -39,11 +39,10 @@ public class Program {
                     String title = dados.nextLine();
                     System.out.print("Digite a nota (0 a 10): ");
                     double note = dados.nextDouble();
-                    dados.nextLine();
 
                 try{
                     listMovies.avaliateMovie(title, note);
-                    
+
                 }catch(NoteException e){
                     System.out.println("Erro: " + e.getMessage());
                 }catch(TitleException e){
@@ -88,6 +87,7 @@ public class Program {
 
         } while (option != 6);
     
+        dados.close();
 
     }
 }
